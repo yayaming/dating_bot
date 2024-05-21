@@ -1,22 +1,26 @@
+import os
+import pandas as pd
 import logging
 import asyncio
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler, CallbackContext
-import pandas as pd
-import numpy as np
-import random
+
+# 獲取腳本的當前目錄
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# 定義 Excel 檔案的相對路徑
+file_path = os.path.join(current_directory, "特質編號.xlsx")
+
+# 從 Excel 加載特質數據
+traits_df = pd.read_excel(file_path)
+traits_dict = dict(zip(traits_df['特質名稱'], traits_df['特質編號']))
+inverse_traits_dict = {v: k for k, v in traits_dict.items()}  # To get the Chinese names back from codes
 
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 logger = logging.getLogger(__name__)
-
-# Load the traits data from Excel
-file_path = "D:/大三下/基因演算法/project_dating/特質編號.xlsx"
-traits_df = pd.read_excel(file_path)
-traits_dict = dict(zip(traits_df['特質名稱'], traits_df['特質編號']))
-inverse_traits_dict = {v: k for k, v in traits_dict.items()}  # To get the Chinese names back from codes
 
 # States for conversation handler
 CHOOSING_GENDER, ASKING_NAME, CHOOSING_TRAITS, CHOOSING_IDEAL_TRAITS, CONFIRMING_CHOICES, STORING = range(6)
@@ -176,7 +180,7 @@ async def run_genetic_algorithm(update: Update):
     NUM_MUTATION = int(Pm * NUM_CHROME * NUM_BIT)
 
     # Example databases (Replace with actual data)
-    full_database_men = [
+full_database_men = [
         ["man1", ["ae", "ab", "as", "as", "am", "bd"]],
         ["man2", ["af", "aq", "as", "ad", "ax", "af"]],
         ["man3", ["aa", "cg", "bf", "bf", "aj", "aa"]],
@@ -642,7 +646,7 @@ async def run_genetic_algorithm(update: Update):
 # Main function to set up the bot
 def main() -> None:
     # Create the Application and pass it your bot's token.
-    application = Application.builder().token("7111678220:AAE1uj-cMDvrxMjQqb9lGLJNrH3c9ldW3e8").build()
+    application = Application.builder().token("YOUR_TELEGRAM_BOT_TOKEN").build()
 
     # Add conversation handler with the states CHOOSING_GENDER, ASKING_NAME, CHOOSING_TRAITS, CHOOSING_IDEAL_TRAITS, CONFIRMING_CHOICES, STORING
     conv_handler = ConversationHandler(
