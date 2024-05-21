@@ -646,7 +646,7 @@ async def run_genetic_algorithm(update: Update):
 # Main function to set up the bot
 def main() -> None:
     # Create the Application and pass it your bot's token.
-    application = Application.builder().token("YOUR_TELEGRAM_BOT_TOKEN").build()
+    application = Application.builder().token("7111678220:AAE1uj-cMDvrxMjQqb9lGLJNrH3c9ldW3e8").build()
 
     # Add conversation handler with the states CHOOSING_GENDER, ASKING_NAME, CHOOSING_TRAITS, CHOOSING_IDEAL_TRAITS, CONFIRMING_CHOICES, STORING
     conv_handler = ConversationHandler(
