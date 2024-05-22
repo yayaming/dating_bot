@@ -8,6 +8,23 @@ import numpy as np
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler, CallbackContext
 
+# Dummy server to bind to a port if necessary
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
+
+def run_dummy_server(port):
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"Hello, world!")
+    
+    server = HTTPServer(("0.0.0.0", port), Handler)
+    threading.Thread(target=server.serve_forever).start()
+
+# Run dummy server on a port
+run_dummy_server(8000)
+
 # 獲取腳本的當前目錄
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
