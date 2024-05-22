@@ -656,8 +656,12 @@ async def run_genetic_algorithm(update: Update):
             full_database_men[match][1] if idx < 3 else full_database_women[match_index][1]
         )
         match_traits_chinese = [inverse_traits_dict[trait] for trait in match_traits[:3]]
-        gender = "man" if idx < 3 else "woman"
-        result_text += f"{idx + 1}. {user_name} 配對到 {gender}{match + 1}，他的特質有[{', '.join(match_traits_chinese)}]\n"
+        if idx < 3:
+            gender = "man"
+            result_text += f"{idx + 1}. {user_name} 配對到 {gender}{match + 1}，他的特質有[{', '.join(match_traits_chinese)}]\n"
+        else:
+            gender = "woman"
+            result_text += f"{idx + 1}. {user_name} 配對到 {gender}{match + 1 - 231}，他的特質有[{', '.join(match_traits_chinese)}]\n"
 
     result_text += f"本次配對結果的分數：{best_outputs[-1]}"
 
