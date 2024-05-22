@@ -44,7 +44,7 @@ inverse_traits_dict = {v: k for k, v in traits_dict.items()}  # To get the Chine
 
 # Enable logging
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levellevel)s - %(message)s', level=logging.INFO
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
