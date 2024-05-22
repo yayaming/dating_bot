@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import logging
 import asyncio
-import openpyxl
 import random
 import numpy as np
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
@@ -25,6 +24,13 @@ def run_dummy_server(port):
 # Run dummy server on a port
 run_dummy_server(8000)
 
+# Your existing bot setup and functions here...
+
+# Ensure you have added numpy import
+import numpy as np
+
+# The rest of your code...
+
 # 獲取腳本的當前目錄
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -38,7 +44,7 @@ inverse_traits_dict = {v: k for k, v in traits_dict.items()}  # To get the Chine
 
 # Enable logging
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+    format='%(asctime)s - %(name)s - %(levellevel)s - %(message)s', level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
@@ -117,7 +123,7 @@ async def choose_traits(update: Update, context: CallbackContext) -> int:
     reply_keyboard = [[KeyboardButton(trait)] for trait in traits_df['特質名稱'].tolist()]
     await update.message.reply_text(
         '請選擇三個理想型的特質:',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one-time_keyboard=True)
     )
     return CHOOSING_IDEAL_TRAITS
 
@@ -184,6 +190,8 @@ async def store_data(update: Update, context: CallbackContext) -> int:
         await update.message.reply_text("新的一輪配對即將展開！大家千萬別走開~")
         await asyncio.sleep(1)
         await run_genetic_algorithm(update)
+        # Inform the user that the bot is ready for a new session
+        await update.message.reply_text("配對完成！請輸入 /start 開始新的配對。")
         return ConversationHandler.END
 
 # Function to run the genetic algorithm and display the result
@@ -522,6 +530,7 @@ async def run_genetic_algorithm(update: Update):
             ["woman85", ["bi", "ac", "ap", "bd", "ay", "al"]],
         ]
 
+
     def initPop(full_database_men, full_database_women):
         population = []
         for _ in range(NUM_CHROME):
@@ -652,6 +661,8 @@ async def run_genetic_algorithm(update: Update):
     for idx, match in enumerate(detailed_output):
         user_name = customer[idx][2]
         match_index = match if idx < 3 else match - len(full_database_men)
+        if match_index >= len(full_database_women):
+            raise IndexError(f"match_index {match_index} out of range for full_database_women")
         match_traits = (
             full_database_men[match][1] if idx < 3 else full_database_women[match_index][1]
         )
@@ -666,6 +677,12 @@ async def run_genetic_algorithm(update: Update):
     result_text += f"本次配對結果的分數：{best_outputs[-1]}"
 
     await update.message.reply_text(result_text)
+
+# Function to reset the bot
+async def reset(update: Update, context: CallbackContext) -> None:
+    customer.clear()
+    context.user_data.clear()
+    await update.message.reply_text("所有資料已重置，請輸入 /start 開始新的配對。")
 
 # Main function to set up the bot
 def main() -> None:
@@ -687,6 +704,7 @@ def main() -> None:
     )
 
     application.add_handler(conv_handler)
+    application.add_handler(CommandHandler('reset', reset))
 
     # Start the Bot
     application.run_polling()
