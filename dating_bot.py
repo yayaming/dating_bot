@@ -123,7 +123,7 @@ async def choose_traits(update: Update, context: CallbackContext) -> int:
     reply_keyboard = [[KeyboardButton(trait)] for trait in traits_df['特質名稱'].tolist()]
     await update.message.reply_text(
         '請選擇三個理想型的特質:',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one-time_keyboard=True)
     )
     return CHOOSING_IDEAL_TRAITS
 
@@ -190,6 +190,7 @@ async def store_data(update: Update, context: CallbackContext) -> int:
         await update.message.reply_text("新的一輪配對即將展開！大家千萬別走開~")
         await asyncio.sleep(1)
         await run_genetic_algorithm(update)
+
         # Inform the user that the bot is ready for a new session
         await update.message.reply_text("配對完成！請輸入 /start 開始新的配對。")
         return ConversationHandler.END
@@ -661,8 +662,6 @@ async def run_genetic_algorithm(update: Update):
     for idx, match in enumerate(detailed_output):
         user_name = customer[idx][2]
         match_index = match if idx < 3 else match - len(full_database_men)
-        if match_index >= len(full_database_women):
-            raise IndexError(f"match_index {match_index} out of range for full_database_women")
         match_traits = (
             full_database_men[match][1] if idx < 3 else full_database_women[match_index][1]
         )
