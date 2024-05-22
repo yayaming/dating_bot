@@ -192,7 +192,7 @@ async def store_data(update: Update, context: CallbackContext) -> int:
         await run_genetic_algorithm(update)
 
         # Inform the user that the bot is ready for a new session
-        await update.message.reply_text("配對完成！請輸入 /start 開始新的配對。")
+        await update.message.reply_text("配對完成！請輸入 /reset 重置，以開始新的配對。")
         return ConversationHandler.END
 
 # Function to run the genetic algorithm and display the result
