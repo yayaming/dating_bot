@@ -4,6 +4,7 @@ import logging
 import asyncio
 import openpyxl
 import random
+import numpy as np
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler, CallbackContext
 
