@@ -123,7 +123,7 @@ async def choose_traits(update: Update, context: CallbackContext) -> int:
     reply_keyboard = [[KeyboardButton(trait)] for trait in traits_df['特質名稱'].tolist()]
     await update.message.reply_text(
         '請選擇三個理想型的特質:',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one-time_keyboard=True)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
     )
     return CHOOSING_IDEAL_TRAITS
 
