@@ -23,21 +23,12 @@ def run_dummy_server(port):
 
 # Run dummy server on a port
 run_dummy_server(8000)
-
-# Your existing bot setup and functions here...
-
-# Ensure you have added numpy import
 import numpy as np
 
-# The rest of your code...
-
-# 獲取腳本的當前目錄
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
-# 定義 Excel 檔案的相對路徑
 file_path = os.path.join(current_directory, "特質編號.xlsx")
 
-# 從 Excel 加載特質數據
 traits_df = pd.read_excel(file_path)
 traits_dict = dict(zip(traits_df['特質名稱'], traits_df['特質編號']))
 inverse_traits_dict = {v: k for k, v in traits_dict.items()}  # To get the Chinese names back from codes
